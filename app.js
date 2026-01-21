@@ -116,23 +116,18 @@ function getDomain(url) {
 }
 
 function getIcon(url) {
-    const domain = getDomain(url).toLowerCase();
+    try {
+        const domain = getDomain(url);
+        return `https://www.google.com/s2/favicons?sz=64&domain=${domain}`;
+    } catch {
+        return '🌐';
+    }
+}
 
-    // Common website icons
-    const iconMap = {
-        'google.com': '🔍',
-        'youtube.com': '📺',
-        'facebook.com': '📘',
-        'twitter.com': '🐦',
-        'instagram.com': '📷',
-        'reddit.com': '🤖',
-        'github.com': '💻',
-        'wikipedia.org': '📚',
-        'amazon.com': '🛒',
-        'netflix.com': '🎬',
-    };
-
-    return iconMap[domain] || '🌐';
+function renderIcon(url, isEmoji = false) {
+    if (isEmoji) return `<span class="icon-placeholder">${url}</span>`;
+    const iconUrl = getIcon(url);
+    return `<img src="${iconUrl}" class="site-favicon" onerror="this.src='/logo.png'">`;
 }
 
 // ============================================================================
@@ -175,7 +170,7 @@ function loadUrlInBrowser(url) {
 
     browserFrame.onerror = () => {
         clearTimeout(loadTimeout);
-        showError('Unable to load this website. It may block embedding in frames.');
+        showError('Security Restricted: This website (like Google or YouTube) prohibits being displayed inside other apps for security reasons. Please use the button below to open it in a full browser tab.');
     };
 
     // Check for X-Frame-Options by attempting to access iframe
@@ -253,7 +248,7 @@ function renderFavorites() {
     favoritesList.innerHTML = favorites.map(fav => `
     <div class="favorite-item" data-url="${fav.url}">
       <button class="delete-favorite" data-url="${fav.url}">✕</button>
-      <span class="favorite-icon">${fav.icon}</span>
+      <div class="favorite-icon-container">${renderIcon(fav.url)}</div>
       <div class="favorite-name">${fav.name}</div>
     </div>
   `).join('');
@@ -317,7 +312,7 @@ function renderRecent() {
 
     recentList.innerHTML = recentUrls.map(recent => `
     <div class="recent-item" data-url="${recent.url}">
-      <span class="recent-icon">${recent.icon}</span>
+      <div class="recent-icon-container">${renderIcon(recent.url)}</div>
       <div class="recent-info">
         <div class="recent-name">${recent.name}</div>
         <div class="recent-url">${recent.url}</div>
