@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0f172a">
+  <title>Full-Screen Browser</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icon-192.png">
+  <link rel="apple-touch-icon" href="icon-512.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Home Screen -->
+  <div id="homeScreen" class="screen active">
+    <div class="home-container">
+      <div class="logo-container">
+        <img src="logo.png" alt="App Logo" class="app-logo">
+        <h1>Full-Screen Browser</h1>
+        <p class="subtitle">Experience the web without borders</p>
+      </div>
+
+      <div class="url-input-container">
+        <input type="url" id="urlInput" placeholder="Enter URL (e.g., google.com)" autocomplete="url"
+          autocapitalize="off" autocorrect="off">
+        <button id="goButton" class="btn-primary">
+          <span class="btn-icon">→</span>
+          <span>Go</span>
+        </button>
+      </div>
+
+      <div class="favorites-section">
+        <h2>Favorites</h2>
+        <div id="favoritesList" class="favorites-grid"></div>
+      </div>
+
+      <div class="recent-section">
+        <h2>Recent</h2>
+        <div id="recentList" class="recent-list"></div>
+      </div>
+
+      <button id="installButton" class="install-prompt hidden">
+        <span>📲</span> Install App
+      </button>
+    </div>
+  </div>
+
+  <!-- Browser Screen -->
+  <div id="browserScreen" class="screen">
+    <div class="browser-container">
+      <iframe id="browserFrame"
+        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"></iframe>
+      <div id="loadingIndicator" class="loading-indicator">
+        <div class="spinner"></div>
+      </div>
+      <div id="errorMessage" class="error-message hidden">
+        <div class="error-content">
+          <div class="error-icon">⚠️</div>
+          <h3>Cannot Load Website</h3>
+          <p id="errorText">This website cannot be displayed in a frame.</p>
+          <button id="openExternalButton" class="btn-primary">Open in Browser</button>
+          <button id="errorBackButton" class="btn-secondary">Go Back</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Control Button (shown on long-press) -->
+    <div id="controlButton" class="control-button hidden">
+      <button id="showControlsButton" class="control-btn">
+        <span class="control-icon">⚙️</span>
+      </button>
+    </div>
+
+    <!-- Control Panel -->
+    <div id="controlPanel" class="control-panel hidden">
+      <div class="control-panel-content">
+        <div class="control-header">
+          <h3>Controls</h3>
+          <button id="closeControlsButton" class="close-btn">✕</button>
+        </div>
+        <div class="control-actions">
+          <button id="backButton" class="action-btn">
+            <span class="action-icon">←</span>
+            <span>Back</span>
+          </button>
+          <button id="homeButton" class="action-btn">
+            <span class="action-icon">🏠</span>
+            <span>Home</span>
+          </button>
+          <button id="refreshButton" class="action-btn">
+            <span class="action-icon">↻</span>
+            <span>Refresh</span>
+          </button>
+          <button id="favoriteButton" class="action-btn">
+            <span class="action-icon">⭐</span>
+            <span id="favoriteText">Add to Favorites</span>
+          </button>
+          <button id="shareButton" class="action-btn">
+            <span class="action-icon">↗</span>
+            <span>Share</span>
+          </button>
+        </div>
+        <div class="current-url-display">
+          <input type="text" id="currentUrlInput" readonly>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
